@@ -17,76 +17,100 @@ class MyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.white, Color.fromARGB(255, 144, 203, 255)])),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    'Category :   ',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 238, 247, 255),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 80,),
+            child: Text('About',style: TextStyle(fontWeight: FontWeight.bold),),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 17),
+              child: Icon(Icons.notifications),
+            )
+          ],
+        ),
+        body: Center(
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Colors.white, Color.fromARGB(255, 144, 203, 255)])),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+               
+                Padding(
+                  padding: const EdgeInsets.only(left: 45 ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Category :   ',
+                        style:
+                            TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      Text(
+                        '$category',
+                        style:
+                            TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
+                      )
+                    ],
                   ),
-                  Text(
-                    '$category',
-                    style:
-                        TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
-                  )
-                ],
-              ),
-              Gap(10),
-              Row(
-                children: [
-                  Text(
-                    'TimeSpent :   ',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                Gap(10),
+                Padding(
+                    padding: const EdgeInsets.only(left: 30 ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'TimeSpent :   ',
+                        style:
+                            TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      Text('$timeSpend',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400, fontSize: 18))
+                    ],
                   ),
-                  Text('$timeSpend',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400, fontSize: 20))
-                ],
-              ),
-              Gap(10),
-              Row(
-                children: [
-                  Text(
-                    'Date :   ',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                Gap(10),
+              
+                Gap(10),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 190,top: 10),
+                        child: Text(
+                          'Discription',
+                          style:
+                              TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
+                      ),Gap(5),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        width: 300,
+                        height: 200,
+                        
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Text('$description',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400, fontSize: 15)),
+                        ),
+                      )
+                    ],
                   ),
-                  Text('$dateAndTime',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400, fontSize: 20))
-                ],
-              ),
-              Gap(10),
-              Column(
-                children: [
-                  Text(
-                    'Discription :   ',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  Container(
-                    width: 300,
-                    height: 200,
-                    color: Colors.white,
-                    child: Text('$description',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 20)),
-                  )
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
