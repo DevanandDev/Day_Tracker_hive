@@ -1,3 +1,7 @@
+import 'package:day_tracker/Screens/viewDisplay.dart';
+import 'package:day_tracker/functions/functions.dart';
+import 'package:day_tracker/models/models.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 Container customText(
@@ -20,3 +24,26 @@ Container customText(
     ),
   );
 }
+ Widget buildMyDatas(List<MyDatas> datas){
+     return datas.isEmpty ? Center(
+      child: Text('Add New Fields'),
+     ):ListView.builder(
+      itemCount: datas.length,
+      itemBuilder: (context,index){
+        final val=datas[index];
+
+        return ListTile(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (ctx)=>MyView(category: val.category.toString() , timeSpend: val.timeSpend.toString(), dateAndTime: val.dateAndTime.toString(), description: val.description.toString())));
+          },
+          title: Text(val.category.toString()),
+          trailing:IconButton(onPressed: (){
+            deleteData(index);
+          }, icon: Icon(Icons.delete)) ,
+        );
+        
+        
+      }
+      
+      );
+ }

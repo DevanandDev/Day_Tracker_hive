@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
-
-@HiveType(typeId:0)
-
+ part 'models.g.dart';
+ 
+@HiveType(typeId: 0)
 class MyDatas {
   @HiveField(0)
   String? category;
@@ -14,11 +14,16 @@ class MyDatas {
 
   @HiveField(3)
   String? description;
+
+  MyDatas(
+      {required category,
+      required timeSpend,
+      required dateAndTime,
+      required description});
 }
 
-@HiveType(typeId:1)
-
-class profile {
+@HiveType(typeId: 1)
+class Profile {
   @HiveField(0)
   String? name;
 
@@ -26,7 +31,13 @@ class profile {
   String? age;
 
   @HiveField(2)
+  String? email;
+
+  @HiveField(3)
   String? address;
-  
-  
+
+  @HiveField(4)
+  String? image;
+
+  Profile({required name, required age, required email, required address,required image});
 }

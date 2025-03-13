@@ -1,6 +1,7 @@
 import 'package:day_tracker/Screens/addPage.dart';
 import 'package:day_tracker/Screens/display.dart';
 import 'package:day_tracker/Screens/home.dart';
+import 'package:day_tracker/Screens/editProfile.dart';
 import 'package:flutter/material.dart';
 
   void main(){
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyAdd(
+      home: MyDisplay(
         
       ),
     );

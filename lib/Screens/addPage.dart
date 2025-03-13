@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+import 'package:day_tracker/functions/functions.dart';
+import 'package:day_tracker/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -10,6 +11,11 @@ class MyAdd extends StatefulWidget {
 }
 
 class _MyAddState extends State<MyAdd> {
+
+TextEditingController discriptionController= TextEditingController();
+TextEditingController timeController = TextEditingController();
+TextEditingController categoryController = TextEditingController();
+
 Future<void> selectDate(BuildContext context) async {
   DateTime? getDate = await showDatePicker(
       context: context,
@@ -28,7 +34,6 @@ Future<void> selectDate(BuildContext context) async {
 
   TextEditingController datecontroller=TextEditingController();
   String? selectedCategory;
-  String? selectedTime;
 
   List<String> category = [
     'Meetings',
@@ -37,7 +42,6 @@ Future<void> selectDate(BuildContext context) async {
     'Learning',
     'Review'
   ];
-  List<String> time = ['15min', '30min', '1 hr', '2 hr', '3 hr'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,31 +63,25 @@ Future<void> selectDate(BuildContext context) async {
                       contentPadding: EdgeInsets.symmetric(horizontal: 15),
                       hintStyle:
                           TextStyle(fontWeight: FontWeight.bold,)),
-                  value: selectedCategory,
+                  value: categoryController.text.isNotEmpty ? categoryController.text:null,
                   items: category.map((String category) {
                     return DropdownMenuItem(
                         value: category, child: Text(category));
                   }).toList(),
                   onChanged: (newValue) {
                     setState(() {
-                      selectedCategory = newValue;
+                     categoryController.text = newValue!;
                     });
                   }),
               Gap(25),
-              DropdownButtonFormField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Time Spent',
-                    contentPadding: EdgeInsets.symmetric(horizontal: 15)
-                  ),
-                  items: time.map((String time) {
-                    return DropdownMenuItem(value: time, child: Text(time));
-                  }).toList(),
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedTime = newValue;
-                    });
-                  }),
+            TextField(
+              controller: timeController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Time Spent',
+              contentPadding: EdgeInsets.symmetric(horizontal: 15),
+            ),
+            ),
               Gap(25),
               TextField(
                 controller: datecontroller,
@@ -99,18 +97,63 @@ Future<void> selectDate(BuildContext context) async {
                 },
               ),
               Gap(25),
-              TextFormField(
-                decoration: InputDecoration(border: OutlineInputBorder(),
-                labelText: 'Enter Description',
-                contentPadding: EdgeInsets.symmetric(vertical: 30
-                ) 
-                ),
+              Column(
+                children: [
+                  Row(
+          children: [
+                      Text('Discription',style: TextStyle(fontWeight: FontWeight.bold),),
+                    ],
+                  ),
+                  Gap(5),
+                  TextFormField(
+                    controller: discriptionController,
+                    decoration: InputDecoration(border: OutlineInputBorder(),
+                    
+                    contentPadding: EdgeInsets.symmetric(vertical: 20,horizontal: 10
+                    ) ,
+                    
+                    ),
+                    maxLines: 4,
+                    keyboardType: TextInputType.multiline,
+                  ),
+                ],
               ),
+              Gap(50),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:  Color.fromARGB(255, 146, 208, 255),
+                  shadowColor: const Color.fromARGB(255, 76, 0, 255),
+                  overlayColor: const Color.fromARGB(255, 255, 255, 255),
+                  foregroundColor: Colors.black,
+                  minimumSize: Size(50, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)
+                  )
+                ),
+                onPressed: (){
+                  saveBtn();
+                }, child: Text('Save',style: TextStyle(fontSize: 16),))
             ],
           ),
-        ),
+        ), 
       ),
     );
+  }
+  Future<void> saveBtn()async{
+    final category=categoryController.text.trim();
+    final timespent=timeController.text.trim();
+    final date=datecontroller.text.trim();
+    final discription=discriptionController.text.trim();
+
+    if(category.isEmpty || timespent.isEmpty|| date.isEmpty|| discription.isEmpty)
+    {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please Fill All Fields')));
+    }
+    else{
+      final datas=MyDatas(category: category, timeSpend: timespent, dateAndTime: date, description: discription);
+      addData(datas);
+      Navigator.of(context).pop();
+    }
   }
 }
 
