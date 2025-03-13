@@ -4,40 +4,21 @@ import 'package:hive/hive.dart';
 @HiveType(typeId: 0)
 class MyDatas {
   @HiveField(0)
-  String? category;
+  String category;
 
   @HiveField(1)
-  String? timeSpend;
+  String timeSpend;
 
   @HiveField(2)
-  String? dateAndTime;
+  String dateAndTime;
 
   @HiveField(3)
-  String? description;
+  String description;
 
-  MyDatas(
-      {required category,
-      required timeSpend,
-      required dateAndTime,
-      required description});
+   MyDatas(
+      {required this.category,
+      required this.timeSpend,
+      required this.dateAndTime,
+      required this.description});
 }
 
-@HiveType(typeId: 1)
-class Profile {
-  @HiveField(0)
-  String? name;
-
-  @HiveField(1)
-  String? age;
-
-  @HiveField(2)
-  String? email;
-
-  @HiveField(3)
-  String? address;
-
-  @HiveField(4)
-  String? image;
-
-  Profile({required name, required age, required email, required address,required image});
-}

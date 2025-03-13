@@ -1,10 +1,15 @@
-import 'package:day_tracker/Screens/addPage.dart';
+
 import 'package:day_tracker/Screens/display.dart';
 import 'package:day_tracker/Screens/home.dart';
-import 'package:day_tracker/Screens/editProfile.dart';
+import 'package:day_tracker/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 
-  void main(){
+  void main()async{
+    WidgetsFlutterBinding.ensureInitialized();
+      await  Hive.initFlutter();
+    Hive.registerAdapter(MyDatasAdapter());
+
     runApp(MyApp());
   }
 
@@ -17,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyDisplay(
+      home: MyHome(
         
       ),
     );

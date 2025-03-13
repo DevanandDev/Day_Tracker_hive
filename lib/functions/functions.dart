@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:day_tracker/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -14,6 +16,7 @@ Future<void> getData() async{
 
 Future<void> addData(MyDatas value)async{
    final database = await Hive.openBox<MyDatas>('data');
+   log(value.description.toString());
    await database.add(value);
    getData();
 
