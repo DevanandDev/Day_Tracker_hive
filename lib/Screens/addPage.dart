@@ -4,9 +4,11 @@ import 'package:day_tracker/functions/functions.dart';
 import 'package:day_tracker/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 
 class MyAdd extends StatefulWidget {
-  const MyAdd({super.key});
+  final String date;
+  const MyAdd({super.key,required this.date});
 
   @override
   State<MyAdd> createState() => _MyAddState();
@@ -17,21 +19,6 @@ class _MyAddState extends State<MyAdd> {
   TextEditingController timeController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
 
-  Future<void> selectDate(BuildContext context) async {
-    DateTime? getDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100));
-
-    if (getDate != null) {
-      setState(() {
-        datecontroller.text = "${getDate.day}/${getDate.month}/${getDate.year}";
-      });
-    }
-  }
-
-  TextEditingController datecontroller = TextEditingController();
   String? selectedCategory;
 
   List<String> category = [
@@ -44,6 +31,19 @@ class _MyAddState extends State<MyAdd> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 242, 248, 254),
+        title: Padding(
+          padding: const EdgeInsets.only(
+            left: 60,
+          ),
+          child: Text(
+            'Add Details',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+       
+      ),
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -85,20 +85,6 @@ class _MyAddState extends State<MyAdd> {
                 ),
               ),
               Gap(25),
-              TextField(
-                controller: datecontroller,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Select Date',
-                    contentPadding: EdgeInsets.symmetric(horizontal: 40),
-                    prefixIcon: Icon(
-                      Icons.calendar_month_outlined,
-                    )),
-                onTap: () {
-                  selectDate(context);
-                },
-              ),
-              Gap(25),
               Column(
                 children: [
                   Row(
@@ -133,11 +119,12 @@ class _MyAddState extends State<MyAdd> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5))),
                   onPressed: () {
-                    saveBtn();
+                    addBtn();
                   },
                   child: Text(
-                    'Save',
+                    'Add',
                     style: TextStyle(fontSize: 16),
+                    
                   ))
             ],
           ),
@@ -146,26 +133,26 @@ class _MyAddState extends State<MyAdd> {
     );
   }
 
-  Future<void> saveBtn() async {
+  Future<void> addBtn() async {
     final category = categoryController.text.trim();
     final timespent = timeController.text.trim();
-    final date = datecontroller.text.trim();
     final discription = discriptionController.text.trim();
-    log(date);
-    log(discription);
-    
+
     if (category.isEmpty ||
         timespent.isEmpty ||
-        date.isEmpty ||
         discription.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Please Fill All Fields')));
     } else {
+                // final formateddate = DateFormat('dd/M/yyyy').format(DateTime.now());
       final datas = MyDatas(
+        dateAndTime: widget.date,
           category: category,
           timeSpend: timespent,
-          dateAndTime: date,
-          description: discription);
+          description: discription
+          );
+
+            // log(formateddate);
                 addData(datas);
       Navigator.of(context).pop();
     }

@@ -19,7 +19,7 @@ class MyDatasAdapter extends TypeAdapter<MyDatas> {
     return MyDatas(
       category: fields[0] as String,
       timeSpend: fields[1] as String,
-      dateAndTime: fields[2] as String,
+      dateAndTime: fields[2] as String?,
       description: fields[3] as String,
     );
   }

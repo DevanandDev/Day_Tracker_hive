@@ -10,7 +10,7 @@ class MyDatas {
   String timeSpend;
 
   @HiveField(2)
-  String dateAndTime;
+  String? dateAndTime;
 
   @HiveField(3)
   String description;
@@ -18,7 +18,7 @@ class MyDatas {
    MyDatas(
       {required this.category,
       required this.timeSpend,
-      required this.dateAndTime,
+       this.dateAndTime ='date',
       required this.description});
 }
 

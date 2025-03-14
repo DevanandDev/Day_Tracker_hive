@@ -4,14 +4,15 @@ import 'package:day_tracker/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
-// ignore: non_constant_identifier_names
-ValueNotifier<List<MyDatas>> MyDatasNotifier=ValueNotifier([]);
+
+ValueNotifier<List<MyDatas>> myDatasNotifier=ValueNotifier([]);
 
 Future<void> getData() async{
+  log(myDatasNotifier.value.toString());
   final database= await Hive.openBox<MyDatas>('data');
-  MyDatasNotifier.value.clear();
-  MyDatasNotifier.value.addAll(database.values);
-  MyDatasNotifier.notifyListeners();
+  myDatasNotifier.value.clear();
+  myDatasNotifier.value.addAll(database.values);
+  myDatasNotifier.notifyListeners();
 }
 
 Future<void> addData(MyDatas value)async{
