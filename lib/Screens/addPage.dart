@@ -144,15 +144,15 @@ class _MyAddState extends State<MyAdd> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Please Fill All Fields')));
     } else {
-                // final formateddate = DateFormat('dd/M/yyyy').format(DateTime.now());
+               
       final datas = MyDatas(
-        dateAndTime: widget.date,
+         dateAndTime: widget.date,
           category: category,
           timeSpend: timespent,
           description: discription
           );
 
-            // log(formateddate);
+          
                 addData(datas);
       Navigator.of(context).pop();
     }

@@ -1,21 +1,22 @@
 import 'dart:io';
 
+import 'package:day_tracker/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 
-class MyProfile extends StatefulWidget {
-  const MyProfile({super.key});
+class Editprofile extends StatefulWidget {
+  const Editprofile({super.key});
 
   @override
-  State<MyProfile> createState() => _MyProfileState();
+  State< Editprofile> createState() => _MyProfileState();
 }
 
-class _MyProfileState extends State<MyProfile> {
+class _MyProfileState extends State< Editprofile> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
+  TextEditingController phnController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  
   File? imageFile;
 
   Future<void> pickImage() async {
@@ -31,6 +32,19 @@ class _MyProfileState extends State<MyProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 242, 248, 254),
+        title: Padding(
+          padding: const EdgeInsets.only(
+            left: 60,
+          ),
+          child: Text(
+            'Edit Profile',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+       
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -41,26 +55,14 @@ class _MyProfileState extends State<MyProfile> {
         child: SafeArea(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Edit Profile',
-                      style:
-                          TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              Gap(30),
+              
+              Gap(20),
               CircleAvatar(
                 radius: 50,
                 backgroundColor: Colors.grey[300],
                 backgroundImage: imageFile != null
                     ? FileImage(imageFile!)
-                    : const AssetImage('asset/images/IMG_4364-Photoroom.png'),
+                    : const AssetImage('asset/images/person.webp'),
               ),
               TextButton(
                   onPressed: () {
@@ -69,33 +71,15 @@ class _MyProfileState extends State<MyProfile> {
                   child: Text('Add Image')),
               Gap(10),
               Padding(
-                padding: const EdgeInsets.all(18.0),
+                padding: const EdgeInsets.all(38.0),
                 child: Column(
                   children: [
-                    TextField(
-                      controller: nameController,
-                      decoration: InputDecoration(
-                          hintText: 'name', border: OutlineInputBorder()),
-                    ),
+                    passTextfield(controller: nameController,hint: 'name'),
+                  
+                
                     Gap(20),
-                    TextField(
-                      controller: ageController,
-                      decoration: InputDecoration(
-                          hintText: 'age', border: OutlineInputBorder()),
-                    ),
-                    Gap(20),
-                    TextField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                          hintText: 'email', border: OutlineInputBorder()),
-                    ),
-                    Gap(20),
-                    TextField(
-                      controller: addressController,
-                      maxLines: 3,
-                      decoration: InputDecoration(
-                          hintText: 'address', border: OutlineInputBorder()),
-                    ),
+                   passTextfield(controller: emailController, hint: 'email'),
+                   
                     Gap(20),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -123,4 +107,6 @@ class _MyProfileState extends State<MyProfile> {
       ),
     );
   }
+
+
 }

@@ -15,12 +15,23 @@ class MyDisplay extends StatefulWidget {
 
 class _MyDisplayState extends State<MyDisplay> {
   DateTime? selectDate;
-  String formateddate =  DateFormat('dd/M/yyyy').format(DateTime.now());
+  String formateddate = DateFormat('dd/M/yyyy').format(DateTime.now());
+
+  double totalHourse = 0;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData();
+    updateTime();
+  }
+
+  Future<void> updateTime() async {
+    double time = await totalTime();
+    setState(() {
+      totalHourse = time;
+    });
   }
 
   @override
@@ -45,7 +56,11 @@ class _MyDisplayState extends State<MyDisplay> {
               backgroundColor: const Color.fromARGB(255, 187, 233, 255),
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (ctx) => MyAdd(date: formateddate,)));
+                    context,
+                    MaterialPageRoute(
+                        builder: (ctx) => MyAdd(
+                              date: formateddate,
+                            )));
               },
               child: Icon(Icons.add),
             ),
@@ -92,6 +107,25 @@ class _MyDisplayState extends State<MyDisplay> {
                   ),
                 ),
               ),
+              Gap(8),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: const Color.fromARGB(255, 255, 251, 251),
+                ),
+                width: 180,
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Total Time : ${totalHourse.toStringAsFixed(2)} hrs',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+                    ),
+                  ],
+                ),
+              ),
               Expanded(
                   child: ValueListenableBuilder(
                 valueListenable: myDatasNotifier,
@@ -101,9 +135,10 @@ class _MyDisplayState extends State<MyDisplay> {
                         (element) => element.dateAndTime == formateddate,
                       )
                       .toList();
+
                   return formatedList.isEmpty
                       ? Center(
-                          child: Text('Add New Fields'),
+                          child: Text('Add Fields'),
                         )
                       : ListView.builder(
                           itemCount: formatedList.length,
@@ -150,7 +185,9 @@ class _MyDisplayState extends State<MyDisplay> {
                         minimumSize: Size(40, 40),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5))),
-                    onPressed: () {},
+                    onPressed: () {
+                      totalTime();
+                    },
                     child: Text(
                       'Save',
                       style: TextStyle(fontSize: 16),
@@ -177,10 +214,33 @@ class _MyDisplayState extends State<MyDisplay> {
             ? DateFormat('dd/M/yyyy').format(pickdate)
             : "No Date ";
       });
+      updateTime();
     }
   }
 
   TextEditingController datecontroller = TextEditingController();
 
-  Future<void> saveBtn() async {}
+  Future<double> totalTime() async {
+    var totalList = myDatasNotifier.value;
+
+    if (totalList.isEmpty) {
+      return 0;
+    }
+    List<MyDatas> newList = totalList
+        .where((element) => element.dateAndTime == formateddate)
+        .toList();
+
+    if (newList.isEmpty) {
+      return 0;
+    }
+
+    double totaltime = totalList.fold(0, (sum, element) {
+      double time = double.tryParse(element.timeSpend) ?? 0;
+      return sum + time;
+    });
+
+    double toHour = totaltime / 60;
+    print("Total Time in Hours: $toHour");
+    return toHour;
+  }
 }

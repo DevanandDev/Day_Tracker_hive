@@ -1,4 +1,5 @@
 import 'package:day_tracker/Screens/display.dart';
+import 'package:day_tracker/Screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -36,13 +37,18 @@ class _MyHomeState extends State<MyHome> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 20, top: 10),
+                    padding: const EdgeInsets.only(right: 29, top: 10),
                     child: Column(
                       children: [
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundImage:
-                              AssetImage('asset/images/IMG_4364-Photoroom.png'),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (ctx)=> MyProfile()));
+                          },
+                          child: CircleAvatar(
+                            radius: 30,
+                            backgroundImage:
+                                AssetImage('asset/images/person.webp'),
+                          ),
                         ),
                         Gap(10),
                         Text(

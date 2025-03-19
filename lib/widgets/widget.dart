@@ -1,7 +1,4 @@
-import 'package:day_tracker/Screens/viewDisplay.dart';
-import 'package:day_tracker/functions/functions.dart';
-import 'package:day_tracker/models/models.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 
 Container customText(
@@ -26,3 +23,11 @@ Container customText(
 }
 
 
+  TextField passTextfield({required controller,required String hint}) {
+    
+    return TextField(
+                    controller: controller,
+                    decoration: InputDecoration(
+                        hintText: hint, border: OutlineInputBorder()),
+                  );
+  }
