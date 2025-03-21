@@ -7,7 +7,8 @@ import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 
 class MyDisplay extends StatefulWidget {
-  const MyDisplay({super.key});
+  var selectDate;
+   MyDisplay({super.key,this.selectDate});
 
   @override
   State<MyDisplay> createState() => _MyDisplayState();
@@ -223,9 +224,7 @@ class _MyDisplayState extends State<MyDisplay> {
   Future<double> totalTime() async {
     var totalList = myDatasNotifier.value;
 
-    if (totalList.isEmpty) {
-      return 0;
-    }
+
     List<MyDatas> newList = totalList
         .where((element) => element.dateAndTime == formateddate)
         .toList();
@@ -234,13 +233,12 @@ class _MyDisplayState extends State<MyDisplay> {
       return 0;
     }
 
-    double totaltime = totalList.fold(0, (sum, element) {
+    double totaltime = newList.fold(0, (sum, element) {
       double time = double.tryParse(element.timeSpend) ?? 0;
       return sum + time;
     });
 
     double toHour = totaltime / 60;
-    print("Total Time in Hours: $toHour");
     return toHour;
   }
 }

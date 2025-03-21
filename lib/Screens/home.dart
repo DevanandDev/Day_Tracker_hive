@@ -1,7 +1,9 @@
 import 'package:day_tracker/Screens/display.dart';
 import 'package:day_tracker/Screens/profile.dart';
+import 'package:day_tracker/functions/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 
 class MyHome extends StatefulWidget {
   const MyHome({super.key});
@@ -11,9 +13,15 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
-  String? selectedDate;
-
+  String formateddate = DateFormat('dd/M/yyyy').format(DateTime.now());
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+  @override
+  
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -42,7 +50,10 @@ class _MyHomeState extends State<MyHome> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (ctx)=> MyProfile()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (ctx) => MyProfile()));
                           },
                           child: CircleAvatar(
                             radius: 30,
@@ -72,13 +83,45 @@ class _MyHomeState extends State<MyHome> {
                       )),
                 ),
               ),
+              Expanded(
+                  child: ValueListenableBuilder(
+                      valueListenable: myDatasNotifier,
+                      builder: (context, datas, Widget? child) {
+
+                        return datas.isEmpty
+                            ? Center(
+                                child: Text('No date Available'),
+                              )
+                            : ListView.builder(
+                                itemCount: datas.length,
+                                itemBuilder: (context, index) {
+                                  final val = datas[index];
+
+                                  return Padding(
+                                    padding: const EdgeInsets.all(18.0),
+                                    child: ListTile(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (ctx) => MyDisplay(selectDate: val,)));
+                                      },
+                                      title: Text(val.dateAndTime.toString()),
+                                      trailing: IconButton(onPressed: (){
+                                        deleteData(index);
+                                      }, icon: Icon(Icons.delete)),
+                                    ),
+                                  );
+                                });
+                      }))
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.white,
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (ctx)=>MyDisplay()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (ctx) => MyDisplay()));
           },
           child: Icon(
             Icons.add,
@@ -88,4 +131,4 @@ class _MyHomeState extends State<MyHome> {
       ),
     );
   }
-}
+} 

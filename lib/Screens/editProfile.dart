@@ -4,6 +4,7 @@ import 'package:day_tracker/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Editprofile extends StatefulWidget {
   const Editprofile({super.key});
@@ -18,6 +19,15 @@ class _MyProfileState extends State< Editprofile> {
   TextEditingController emailController = TextEditingController();
   
   File? imageFile;
+  String? saveImage;
+
+  @override 
+  void initState()
+  {
+    super.initState();
+    profDetails();
+  }
+
 
   Future<void> pickImage() async {
     final pickFile = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -29,6 +39,24 @@ class _MyProfileState extends State< Editprofile> {
     }
   }
 
+ 
+  Future<void> profDetails()async{
+    final prefer = await SharedPreferences.getInstance();
+    setState(() {
+      nameController.text = prefer.getString('userid') ?? 'no data';
+      emailController.text = prefer.getString('email') ?? 'no email';
+      
+
+    });
+  }
+
+  Future<void> saveEdit()async{
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString('userid', nameController.text);
+    await pref.setString('email', emailController.text);
+
+    
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +120,8 @@ class _MyProfileState extends State< Editprofile> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5))),
                         onPressed: () {
-                            
+                            saveEdit();
+                           
                         },
                         child: Text(
                           'Edit',
