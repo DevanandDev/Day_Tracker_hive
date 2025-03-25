@@ -1,8 +1,5 @@
-import 'package:day_tracker/Screens/editProfile.dart';
-import 'package:day_tracker/Screens/home.dart';
+
 import 'package:day_tracker/Screens/login.dart';
-import 'package:day_tracker/Screens/register.dart';
-import 'package:day_tracker/Screens/splash.dart';
 import 'package:day_tracker/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -22,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MySplash(),
+      home: MyLogin(),
     );
   }
 }
