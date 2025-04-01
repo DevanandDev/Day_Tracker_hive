@@ -9,13 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 class Editprofile extends StatefulWidget {
- final String username;
- final String email;
- final String image;
- 
-   Editprofile({super.key,required this.username,required this.email,required this.image});
+  final String username;
+  final String email;
+  final String image;
+
+  Editprofile(
+      {super.key,
+      required this.username,
+      required this.email,
+      required this.image});
 
   @override
   State<Editprofile> createState() => _MyProfileState();
@@ -26,14 +29,12 @@ class _MyProfileState extends State<Editprofile> {
   TextEditingController emailController = TextEditingController();
 
   File? imageFile;
- 
-    
+
   @override
   void initState() {
     super.initState();
     nameController.text = widget.username;
     emailController.text = widget.email;
-   
   }
 
   Future<void> pickImage() async {
@@ -45,10 +46,6 @@ class _MyProfileState extends State<Editprofile> {
       });
     }
   }
-
- 
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +104,7 @@ class _MyProfileState extends State<Editprofile> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5))),
                         onPressed: () {
-                         updateBtn();
+                          updateBtn();
                         },
                         child: Text(
                           'Edit',
@@ -122,20 +119,21 @@ class _MyProfileState extends State<Editprofile> {
       ),
     );
   }
-  void updateBtn(){
-    final eUser= nameController.text.trim();
-    final eEmail= emailController.text.trim();
-    final img = imageFile?.path??'';
 
-    if(eUser.isEmpty || eEmail.isEmpty )
-    {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fill all fields')));
+  void updateBtn() {
+    final eUser = nameController.text.trim();
+    final eEmail = emailController.text.trim();
+    final img = imageFile?.path ?? '';
+
+    if (eUser.isEmpty || eEmail.isEmpty) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Fill all fields')));
       return;
     }
 
-    final updated = UserDatas(username: eUser, email: eEmail,images: img);
+    final updated = UserDatas(username: eUser, email: eEmail, images: img);
 
-   updateUser(updated);
-   Navigator.pop(context);
+    updateUser(updated);
+    Navigator.pop(context);
   }
 }

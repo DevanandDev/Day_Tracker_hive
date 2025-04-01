@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 
 class MyDisplay extends StatefulWidget {
   String? getDate;
-   MyDisplay({super.key,this.getDate});
+  MyDisplay({super.key, this.getDate});
 
   @override
   State<MyDisplay> createState() => _MyDisplayState();
@@ -89,7 +89,6 @@ class _MyDisplayState extends State<MyDisplay> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-
                     color: const Color.fromARGB(255, 255, 251, 251),
                   ),
                   width: 180,
@@ -104,10 +103,10 @@ class _MyDisplayState extends State<MyDisplay> {
                           child: Icon(Icons.calendar_month)),
                       Gap(10),
                       Text(
-                       'Date : ${widget.getDate}',
-                       style: TextStyle(
-                           fontWeight: FontWeight.w500, fontSize: 15),
-                         ),
+                        'Date : ${widget.getDate}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 15),
+                      ),
                     ],
                   ),
                 ),
@@ -130,7 +129,8 @@ class _MyDisplayState extends State<MyDisplay> {
                     ),
                   ],
                 ),
-              ),Gap(30),
+              ),
+              Gap(30),
               Expanded(
                   child: ValueListenableBuilder(
                 valueListenable: myDatasNotifier,
@@ -170,16 +170,24 @@ class _MyDisplayState extends State<MyDisplay> {
                                       fontSize: 18),
                                 ),
                               ),
-                             leading: IconButton(onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (ctx)=>MyEditDetail(
-                              category: val.category.toString(),
-                              timeSpend: val.timeSpend.toString(),
-                              description: val.description.toString(),
-                              dateAndTime : val.dateAndTime.toString(),
-                              index: index,
-
-                              )));
-                             }, icon: Icon(Icons.edit)),
+                              leading: IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (ctx) => MyEditDetail(
+                                                  category:
+                                                      val.category.toString(),
+                                                  timeSpend:
+                                                      val.timeSpend.toString(),
+                                                  description: val.description
+                                                      .toString(),
+                                                  dateAndTime: val.dateAndTime
+                                                      .toString(),
+                                                  index: index,
+                                                )));
+                                  },
+                                  icon: Icon(Icons.edit)),
                               trailing: IconButton(
                                   onPressed: () {
                                     deleteData(index);
@@ -189,51 +197,50 @@ class _MyDisplayState extends State<MyDisplay> {
                           });
                 },
               )),
-            
-            ], 
-          ), 
-        ), 
-      ), 
-    ); 
-  } 
- 
-  Future<void> getdate(BuildContext context) async { 
-    DateTime? pickdate = await showDatePicker( 
-        context: context, 
-        initialDate: DateTime.now(), 
-        firstDate: DateTime(2000), 
-        lastDate: DateTime(2100)); 
- 
-    if (pickdate != null) { 
-      setState(() { 
-        selectDate = pickdate; 
-        formateddate = selectDate != null 
-            ? DateFormat('dd/M/yyyy').format(pickdate) 
-            : "No Date "; 
-      }); 
-      updateTime(); 
-    } 
-  } 
- 
-  TextEditingController datecontroller = TextEditingController(); 
- 
-  Future<double> totalTime() async { 
-    var totalList = myDatasNotifier.value; 
- 
-    List<MyDatas> newList = totalList 
-        .where((element) => element.dateAndTime == widget.getDate) 
-        .toList(); 
-      
-    if (newList.isEmpty) { 
-     return 0;
-    } 
-    
-      double totaltime = newList.fold(0, (sum, element) {
-      double time = double.tryParse(element.timeSpend) ?? 0; 
-      return sum + time; 
-    }); 
- 
-    double toHour = totaltime / 60; 
-    return toHour; 
-  } 
-} 
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> getdate(BuildContext context) async {
+    DateTime? pickdate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+
+    if (pickdate != null) {
+      setState(() {
+        selectDate = pickdate;
+        formateddate = selectDate != null
+            ? DateFormat('dd/M/yyyy').format(pickdate)
+            : "No Date ";
+      });
+      updateTime();
+    }
+  }
+
+  TextEditingController datecontroller = TextEditingController();
+
+  Future<double> totalTime() async {
+    var totalList = myDatasNotifier.value;
+
+    List<MyDatas> newList = totalList
+        .where((element) => element.dateAndTime == widget.getDate)
+        .toList();
+
+    if (newList.isEmpty) {
+      return 0;
+    }
+
+    double totaltime = newList.fold(0, (sum, element) {
+      double time = double.tryParse(element.timeSpend) ?? 0;
+      return sum + time;
+    });
+
+    double toHour = totaltime / 60;
+    return toHour;
+  }
+}

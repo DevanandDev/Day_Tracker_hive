@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 
 class MyAdd extends StatefulWidget {
   final String date;
-  const MyAdd({super.key,required this.date});
+  const MyAdd({super.key, required this.date});
 
   @override
   State<MyAdd> createState() => _MyAddState();
@@ -32,7 +32,7 @@ class _MyAddState extends State<MyAdd> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-         appBar: AppBar(
+        appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 242, 248, 254),
           title: Padding(
             padding: const EdgeInsets.only(
@@ -43,7 +43,6 @@ class _MyAddState extends State<MyAdd> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-         
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -125,7 +124,6 @@ class _MyAddState extends State<MyAdd> {
                     child: Text(
                       'Add',
                       style: TextStyle(fontSize: 16),
-                      
                     ))
               ],
             ),
@@ -140,22 +138,17 @@ class _MyAddState extends State<MyAdd> {
     final timespent = timeController.text.trim();
     final discription = discriptionController.text.trim();
 
-    if (category.isEmpty ||
-        timespent.isEmpty ||
-        discription.isEmpty) {
+    if (category.isEmpty || timespent.isEmpty || discription.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Please Fill All Fields')));
     } else {
-               
       final datas = MyDatas(
-         dateAndTime: widget.date,
+          dateAndTime: widget.date,
           category: category,
           timeSpend: timespent,
-          description: discription
-          );
+          description: discription);
 
-          
-                addData(datas);
+      addData(datas);
       Navigator.of(context).pop();
     }
   }

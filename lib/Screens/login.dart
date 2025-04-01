@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class MyLogin extends StatelessWidget {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -103,7 +102,8 @@ class MyLogin extends StatelessWidget {
     String? logPass = passwordController.text;
 
     if (getRegId == logName && getPass == logPass) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) => MyHome()));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (ctx) => MyHome()));
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Login Successfully')));
     } else {

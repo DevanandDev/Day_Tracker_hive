@@ -15,9 +15,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
 class MyProfile extends StatefulWidget {
-
-  
-  MyProfile({super.key,});
+  MyProfile({
+    super.key,
+  });
 
   @override
   State<MyProfile> createState() => _MyProfileState();
@@ -26,7 +26,7 @@ class MyProfile extends StatefulWidget {
 class _MyProfileState extends State<MyProfile> {
   String username = "";
   String email = "";
- 
+
   Map<String, double> weeklyData = {};
 
   @override
@@ -101,25 +101,29 @@ class _MyProfileState extends State<MyProfile> {
               child: ValueListenableBuilder<List<UserDatas>>(
                   valueListenable: myProfileNotifier,
                   builder: (context, value, child) {
-                    if(value.isEmpty){
-                     return Center(child: Text("no user data"),);
+                    if (value.isEmpty) {
+                      return Center(
+                        child: Text("no user data"),
+                      );
                     }
                     log(value.first.username ?? '');
                     return Column(
                       children: [
                         CircleAvatar(
                           radius: 45,
-                           backgroundImage: value.first.images != null ? FileImage(File(value.first.images??'')) : AssetImage('asset/images/person.webp'),
+                          backgroundImage: value.first.images != null
+                              ? FileImage(File(value.first.images ?? ''))
+                              : AssetImage('asset/images/person.webp'),
                         ),
                         Gap(20),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Username :  ${value.first.username??''}',
+                            Text('Username :  ${value.first.username ?? ''}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 15)),
                             Gap(4),
-                            Text('Email :  ${value.first.email??''}',
+                            Text('Email :  ${value.first.email ?? ''}',
                                 style: TextStyle(fontWeight: FontWeight.w500)),
                           ],
                         ),
@@ -127,7 +131,11 @@ class _MyProfileState extends State<MyProfile> {
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (ctx) => Editprofile(username: value.first.username.toString(),email: value.first.email.toString(),image: value.first.images.toString(),)));
+                                builder: (ctx) => Editprofile(
+                                      username: value.first.username.toString(),
+                                      email: value.first.email.toString(),
+                                      image: value.first.images.toString(),
+                                    )));
                           },
                           child: Text(
                             'Edit Profile',

@@ -11,15 +11,12 @@ class MyEditDetail extends StatefulWidget {
       required this.category,
       required this.timeSpend,
       required this.description,
-       required String dateAndTime
-      
-      });
+      required String dateAndTime});
 
   final int index;
   final String category;
   final String timeSpend;
   final String description;
-  
 
   @override
   State<MyEditDetail> createState() => _MyEditDetailState();
@@ -118,17 +115,18 @@ class _MyEditDetailState extends State<MyEditDetail> {
     final eCategory = categoryController.text.trim();
     final eTime = timeController.text.trim();
     final eDescription = discriptionController.text.trim();
-    final String nowDate= DateFormat('dd/M/yyyy').format(DateTime.now());
+    final String nowDate = DateFormat('dd/M/yyyy').format(DateTime.now());
     if (eCategory.isEmpty || eTime.isEmpty || eDescription.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Fill All Fields')));
-      
     }
     final editedDatas = MyDatas(
-        category: eCategory, timeSpend: eTime, description: eDescription,dateAndTime: nowDate);
+        category: eCategory,
+        timeSpend: eTime,
+        description: eDescription,
+        dateAndTime: nowDate);
 
-        updateData(editedDatas, widget.index);
-        Navigator.of(context).pop();
-        
+    updateData(editedDatas, widget.index);
+    Navigator.of(context).pop();
   }
 }
