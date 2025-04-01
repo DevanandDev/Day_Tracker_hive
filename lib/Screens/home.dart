@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:day_tracker/Screens/display.dart';
 import 'package:day_tracker/Screens/profile.dart';
 import 'package:day_tracker/functions/functions.dart';
+import 'package:day_tracker/functions/profileFunction.dart';
 import 'package:day_tracker/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -59,27 +62,48 @@ class _MyHomeState extends State<MyHome> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 29, top: 10),
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (ctx) => MyProfile()));
-                          },
-                          child: CircleAvatar(
-                            radius: 30,
-                            backgroundImage:
-                                AssetImage('asset/images/person.webp'),
+                                    builder: (ctx) => MyProfile()),
+                              );
+                            },
+                            child: Column(
+                              children: [
+                                ValueListenableBuilder(
+                                  valueListenable: myProfileNotifier,
+                                  builder: (context, value, child) {
+                                    if (value.isEmpty ||
+                                        value.first.images == null) {
+                                      return const CircleAvatar(
+                                        radius: 27,
+                                        backgroundImage: AssetImage(
+                                            'asset/images/person.webp'),
+                                      );
+                                    }
+                                    return CircleAvatar(
+                                      radius: 27,
+                                      backgroundImage:
+                                          FileImage(File(value.first.images!)),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Gap(10),
-                        Text(
-                          'Profile',
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        )
-                      ],
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Profile',
+                            style: TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],

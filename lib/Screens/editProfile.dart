@@ -1,33 +1,40 @@
 import 'dart:io';
 
+import 'package:day_tracker/Screens/profile.dart';
+import 'package:day_tracker/functions/functions.dart';
+import 'package:day_tracker/functions/profileFunction.dart';
+import 'package:day_tracker/models/modelProfile.dart';
 import 'package:day_tracker/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Editprofile extends StatefulWidget {
-  const Editprofile({super.key});
+ final String username;
+ final String email;
+ final String image;
+ 
+   Editprofile({super.key,required this.username,required this.email,required this.image});
 
   @override
-  State< Editprofile> createState() => _MyProfileState();
+  State<Editprofile> createState() => _MyProfileState();
 }
 
-class _MyProfileState extends State< Editprofile> {
+class _MyProfileState extends State<Editprofile> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController phnController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  
+
   File? imageFile;
-  String? saveImage;
-
-  @override 
-  void initState()
-  {
+ 
+    
+  @override
+  void initState() {
     super.initState();
-    profDetails();
+    nameController.text = widget.username;
+    emailController.text = widget.email;
+   
   }
-
 
   Future<void> pickImage() async {
     final pickFile = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -40,27 +47,13 @@ class _MyProfileState extends State< Editprofile> {
   }
 
  
-  Future<void> profDetails()async{
-    final prefer = await SharedPreferences.getInstance();
-    setState(() {
-      nameController.text = prefer.getString('userid') ?? 'no data';
-      emailController.text = prefer.getString('email') ?? 'no email';
-      
 
-    });
-  }
+  
 
-  Future<void> saveEdit()async{
-    final pref = await SharedPreferences.getInstance();
-    await pref.setString('userid', nameController.text);
-    await pref.setString('email', emailController.text);
-
-    
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 242, 248, 254),
         title: Padding(
           padding: const EdgeInsets.only(
@@ -71,7 +64,6 @@ class _MyProfileState extends State< Editprofile> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-       
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -83,7 +75,6 @@ class _MyProfileState extends State< Editprofile> {
         child: SafeArea(
           child: Column(
             children: [
-              
               Gap(20),
               CircleAvatar(
                 radius: 50,
@@ -102,12 +93,9 @@ class _MyProfileState extends State< Editprofile> {
                 padding: const EdgeInsets.all(38.0),
                 child: Column(
                   children: [
-                    passTextfield(controller: nameController,hint: 'name'),
-                  
-                
+                    passTextfield(controller: nameController, hint: 'name'),
                     Gap(20),
-                   passTextfield(controller: emailController, hint: 'email'),
-                   
+                    passTextfield(controller: emailController, hint: 'email'),
                     Gap(20),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -116,12 +104,10 @@ class _MyProfileState extends State< Editprofile> {
                             overlayColor:
                                 const Color.fromARGB(255, 255, 255, 255),
                             foregroundColor: Colors.black,
-                           
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5))),
                         onPressed: () {
-                            saveEdit();
-                           
+                         updateBtn();
                         },
                         child: Text(
                           'Edit',
@@ -136,6 +122,20 @@ class _MyProfileState extends State< Editprofile> {
       ),
     );
   }
+  void updateBtn(){
+    final eUser= nameController.text.trim();
+    final eEmail= emailController.text.trim();
+    final img = imageFile?.path??'';
 
+    if(eUser.isEmpty || eEmail.isEmpty )
+    {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fill all fields')));
+      return;
+    }
 
+    final updated = UserDatas(username: eUser, email: eEmail,images: img);
+
+   updateUser(updated);
+   Navigator.pop(context);
+  }
 }

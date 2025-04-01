@@ -8,7 +8,6 @@ import 'package:hive/hive.dart';
 ValueNotifier<List<MyDatas>> myDatasNotifier=ValueNotifier([]);
 
 Future<void> getData() async{
-  log(myDatasNotifier.value.toString());
   final database= await Hive.openBox<MyDatas>('data');
   myDatasNotifier.value.clear();
   myDatasNotifier.value.addAll(database.values);
@@ -17,7 +16,6 @@ Future<void> getData() async{
 
 Future<void> addData(MyDatas value)async{
    final database = await Hive.openBox<MyDatas>('data');
-   log(value.description.toString());
    await database.add(value);
    getData();
 

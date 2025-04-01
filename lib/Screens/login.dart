@@ -1,4 +1,3 @@
-
 import 'package:day_tracker/Screens/home.dart';
 import 'package:day_tracker/Screens/register.dart';
 import 'package:day_tracker/widgets/widget.dart';
@@ -6,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// ignore: must_be_immutable
+
 class MyLogin extends StatelessWidget {
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   MyLogin({super.key});
 
   @override
@@ -40,16 +39,16 @@ class MyLogin extends StatelessWidget {
                       height: 100,
                     ),
                     customText(
-                        hintText: 'username', controller: _usernameController),
+                        hintText: 'username', controller: usernameController),
                     SizedBox(
                       height: 25,
                     ),
                     customText(
-                        hintText: 'password', controller: _passwordController),
+                        hintText: 'password', controller: passwordController),
                     Gap(25),
                     ElevatedButton(
-                        style:
-                            ElevatedButton.styleFrom(minimumSize: Size(100, 40)),
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: Size(100, 40)),
                         onPressed: () {
                           getLogin(context);
                         },
@@ -63,20 +62,22 @@ class MyLogin extends StatelessWidget {
                     SizedBox(
                       height: 50,
                     ),
-                    
                     Padding(
-                      padding: const EdgeInsets.only(top: 20,left: 50),
+                      padding: const EdgeInsets.only(top: 20, left: 50),
                       child: Row(
                         children: [
-                        Text("Don't you have an account?"),
-                                      TextButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (ctx)=>MyRegister()));
-                        },
-                        child: const Text(
-                          "Sign up Here!",
-                          style: TextStyle(color: Colors.red),
-                        )),
+                          Text("Don't you have an account?"),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (ctx) => MyRegister()));
+                              },
+                              child: const Text(
+                                "Sign up Here!",
+                                style: TextStyle(color: Colors.red),
+                              )),
                         ],
                       ),
                     )
@@ -89,24 +90,25 @@ class MyLogin extends StatelessWidget {
       ),
     );
   }
-  Future<void> getLogin(BuildContext context)async{
-    SharedPreferences prefs= await SharedPreferences.getInstance();
 
-    prefs.setBool('key_value', false);
+  Future<void> getLogin(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String? getRegId= prefs.getString('userid');
-    String? getPass= prefs.getString('pass');
+    prefs.setBool('key_value', true);
 
-    String logName= _usernameController.text;
-    String? logPass= _passwordController.text;
+    String? getRegId = prefs.getString('userid');
+    String? getPass = prefs.getString('pass');
 
-    if(getRegId == logName && getPass == logPass)
-    {
-      Navigator.push(context, MaterialPageRoute(builder: (ctx)=> MyHome()));
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Successfully')));
-    }
-    else{
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login failed')));
+    String logName = usernameController.text;
+    String? logPass = passwordController.text;
+
+    if (getRegId == logName && getPass == logPass) {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) => MyHome()));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Login Successfully')));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Login failed')));
     }
   }
 }

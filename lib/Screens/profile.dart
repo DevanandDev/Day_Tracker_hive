@@ -1,15 +1,23 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:day_tracker/Screens/editProfile.dart';
 import 'package:day_tracker/Screens/login.dart';
 import 'package:day_tracker/functions/functions.dart';
+import 'package:day_tracker/functions/profileFunction.dart';
+import 'package:day_tracker/models/modelProfile.dart';
 import 'package:day_tracker/models/models.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
 class MyProfile extends StatefulWidget {
-  const MyProfile({super.key});
+
+  
+  MyProfile({super.key,});
 
   @override
   State<MyProfile> createState() => _MyProfileState();
@@ -18,21 +26,14 @@ class MyProfile extends StatefulWidget {
 class _MyProfileState extends State<MyProfile> {
   String username = "";
   String email = "";
+ 
   Map<String, double> weeklyData = {};
 
   @override
   void initState() {
     super.initState();
-    getRegister();
+    getUser();
     getWeeklyData();
-  }
-
-  Future<void> getRegister() async {
-    final pref = await SharedPreferences.getInstance();
-    setState(() {
-      username = pref.getString('userid') ?? 'No User Found';
-      email = pref.getString('email') ?? 'No email found';
-    });
   }
 
   Future<void> getWeeklyData() async {
@@ -66,6 +67,7 @@ class _MyProfileState extends State<MyProfile> {
 
   @override
   Widget build(BuildContext context) {
+    getUser();
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
@@ -95,39 +97,47 @@ class _MyProfileState extends State<MyProfile> {
         ),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 50, top: 30),
-              child: Row(
-                children: [
-                  CircleAvatar(radius: 50),
-                  Gap(20),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(username,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
-                      Text(email,
-                          style: TextStyle(fontWeight: FontWeight.w500)),
-                    ],
-                  ),
-                ],
-              ),
+            Expanded(
+              child: ValueListenableBuilder<List<UserDatas>>(
+                  valueListenable: myProfileNotifier,
+                  builder: (context, value, child) {
+                    if(value.isEmpty){
+                     return Center(child: Text("no user data"),);
+                    }
+                    log(value.first.username ?? '');
+                    return Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 45,
+                           backgroundImage: value.first.images != null ? FileImage(File(value.first.images??'')) : AssetImage('asset/images/person.webp'),
+                        ),
+                        Gap(20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Username :  ${value.first.username??''}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 15)),
+                            Gap(4),
+                            Text('Email :  ${value.first.email??''}',
+                                style: TextStyle(fontWeight: FontWeight.w500)),
+                          ],
+                        ),
+                        Gap(10),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (ctx) => Editprofile(username: value.first.username.toString(),email: value.first.email.toString(),image: value.first.images.toString(),)));
+                          },
+                          child: Text(
+                            'Edit Profile',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
             ),
-            Gap(20),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (ctx) => Editprofile()));
-              },
-              child: Text(
-                'Edit Profile',
-                style: TextStyle(fontSize: 17),
-              ),
-            ),
-           
-          
-         
             Expanded(
               child: weeklyData.isEmpty
                   ? Center(child: Text("No Data Available"))
@@ -181,6 +191,7 @@ class _MyProfileState extends State<MyProfile> {
   signOut(BuildContext context) async {
     final pref = await SharedPreferences.getInstance();
     pref.clear();
+    await Hive.box<UserDatas>('database').clear();
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (ctx) => MyLogin()), (route) => false);
   }

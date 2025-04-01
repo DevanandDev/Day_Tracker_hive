@@ -130,7 +130,7 @@ class _MyDisplayState extends State<MyDisplay> {
                     ),
                   ],
                 ),
-              ),
+              ),Gap(30),
               Expanded(
                   child: ValueListenableBuilder(
                 valueListenable: myDatasNotifier,
@@ -164,7 +164,7 @@ class _MyDisplayState extends State<MyDisplay> {
                               title: Padding(
                                 padding: const EdgeInsets.all(18.0),
                                 child: Text(
-                                  ('${index + 1} .   ${val.category}'),
+                                  ('  ${val.category}'),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18),
@@ -189,25 +189,7 @@ class _MyDisplayState extends State<MyDisplay> {
                           });
                 },
               )),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 80),
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 255, 255, 255),
-                        shadowColor: const Color.fromARGB(255, 76, 0, 255),
-                        overlayColor: const Color.fromARGB(255, 255, 255, 255),
-                        foregroundColor: Colors.black,
-                        minimumSize: Size(40, 40),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5))),
-                    onPressed: () { 
-                      totalTime(); 
-                    }, 
-                    child: Text( 
-                      'Save', 
-                      style: TextStyle(fontSize: 16), 
-                    )), 
-              ) 
+            
             ], 
           ), 
         ), 

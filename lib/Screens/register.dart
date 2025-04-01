@@ -1,5 +1,7 @@
 
 import 'package:day_tracker/Screens/login.dart';
+import 'package:day_tracker/functions/profileFunction.dart';
+import 'package:day_tracker/models/modelProfile.dart';
 import 'package:day_tracker/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -7,9 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class MyRegister extends StatelessWidget {
-  final TextEditingController _fullNamecontroller= TextEditingController();
-  final TextEditingController _emailController= TextEditingController();
-  final TextEditingController _passwordController=TextEditingController();
+  final TextEditingController fullNamecontroller= TextEditingController();
+  final TextEditingController emailController= TextEditingController();
+  final TextEditingController passwordController=TextEditingController();
    MyRegister({super.key});
 
   @override
@@ -31,11 +33,11 @@ class MyRegister extends StatelessWidget {
                         color: const Color.fromARGB(255, 76, 70, 70))),
                         SizedBox(height: 100,),
                           
-                        customText(hintText: 'Full Name', controller: _fullNamecontroller),
+                        customText(hintText: 'Full Name', controller: fullNamecontroller),
                         Gap(25),
-                        customText(hintText: 'Email', controller: _emailController),
+                        customText(hintText: 'Email', controller: emailController),
                         Gap(25),
-                        customText(hintText: 'Password', controller: _passwordController),
+                        customText(hintText: 'Password', controller: passwordController),
                         Gap(25),
                        
                         ElevatedButton(
@@ -70,18 +72,23 @@ class MyRegister extends StatelessWidget {
     );
   }
   Future<void> mySignup(BuildContext context) async {
-    SharedPreferences _pref = await SharedPreferences.getInstance();
+    SharedPreferences pref = await SharedPreferences.getInstance();
 
-    String username = _fullNamecontroller.text;
-    String password = _passwordController.text;
-    String email = _emailController.text;
+    String username = fullNamecontroller.text;
+    String password = passwordController.text;
+    String email = emailController.text;
 
-    _pref.setBool('key_login', true);
+
+
+    pref.setBool('key_login', true);
 
     if (username.isNotEmpty && password.isNotEmpty && email.isNotEmpty) {
-      await _pref.setString('userid', username);
-      await _pref.setString('pass', password);
-      await _pref.setString('email', email);
+      await pref.setString('userid', username);
+      await pref.setString('pass', password);
+      await pref.setString('email', email);
+
+         final save = UserDatas(username: fullNamecontroller.text, email: emailController.text);
+    addUser(save);
 
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Register Sccessfully')));
