@@ -21,10 +21,10 @@ class _MyHomeState extends State<MyHome> {
   String search = '';
   List<MyDatas> searchList = [];
 
-  void getSearch(String query) {
+  void getSearch(String searchVal) {
     setState(() {
       searchList = myDatasNotifier.value
-          .where((data) => data.dateAndTime.toString().contains(query))
+          .where((data) => data.dateAndTime.toString().contains(searchVal))
           .toList();
     });
   }
