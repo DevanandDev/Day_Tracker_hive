@@ -177,7 +177,6 @@ class _MyProfileState extends State<MyProfile> {
       Colors.yellow,
       Colors.teal,
     ];
-
     int index = 0;
     return weeklyData.entries.map((entry) {
       final color = colorList[index % colorList.length];

@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 
 class MyEditDetail extends StatefulWidget {
-  MyEditDetail(
+ const MyEditDetail(
       {super.key,
       required this.index,
       required this.category,

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:day_tracker/Screens/profile.dart';
 import 'package:day_tracker/functions/functions.dart';
 import 'package:day_tracker/functions/profileFunction.dart';
@@ -27,7 +26,6 @@ class Editprofile extends StatefulWidget {
 class _MyProfileState extends State<Editprofile> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-
   File? imageFile;
 
   @override
@@ -52,10 +50,7 @@ class _MyProfileState extends State<Editprofile> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 242, 248, 254),
-        title: Padding(
-          padding: const EdgeInsets.only(
-            left: 60,
-          ),
+        title: Center(
           child: Text(
             'Edit Profile',
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -63,6 +58,8 @@ class _MyProfileState extends State<Editprofile> {
         ),
       ),
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topLeft,
@@ -72,47 +69,55 @@ class _MyProfileState extends State<Editprofile> {
         child: SafeArea(
           child: Column(
             children: [
-              Gap(20),
-              CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.grey[300],
-                backgroundImage: imageFile != null
-                    ? FileImage(imageFile!)
-                    : const AssetImage('asset/images/person.webp'),
-              ),
-              TextButton(
-                  onPressed: () {
-                    pickImage();
-                  },
-                  child: Text('Add Image')),
-              Gap(10),
-              Padding(
-                padding: const EdgeInsets.all(38.0),
-                child: Column(
-                  children: [
-                    passTextfield(controller: nameController, hint: 'name'),
-                    Gap(20),
-                    passTextfield(controller: emailController, hint: 'email'),
-                    Gap(20),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 146, 208, 255),
-                            shadowColor: const Color.fromARGB(255, 76, 0, 255),
-                            overlayColor:
-                                const Color.fromARGB(255, 255, 255, 255),
-                            foregroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5))),
-                        onPressed: () {
-                          updateBtn();
-                        },
-                        child: Text(
-                          'Edit',
-                          style: TextStyle(fontSize: 15),
-                        ))
-                  ],
+              Expanded( 
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Gap(20),
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.grey[300],
+                        backgroundImage: imageFile != null
+                            ? FileImage(imageFile!)
+                            : const AssetImage('asset/images/person.webp'),
+                      ),
+                      TextButton(
+                        onPressed: pickImage,
+                        child: Text('Add Image'),
+                      ),
+                      Gap(10),
+                      Padding(
+                        padding: const EdgeInsets.all(38.0),
+                        child: Column(
+                          children: [
+                            passTextfield(controller: nameController, hint: 'name'),
+                            Gap(20),
+                            passTextfield(controller: emailController, hint: 'email'),
+                            Gap(20),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color.fromARGB(255, 146, 208, 255),
+                                shadowColor: const Color.fromARGB(255, 76, 0, 255),
+                                overlayColor: const Color.fromARGB(255, 255, 255, 255),
+                                foregroundColor: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              onPressed: updateBtn,
+                              child: Text(
+                                'Edit',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),

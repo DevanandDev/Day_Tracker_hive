@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:day_tracker/Screens/addPage.dart';
 import 'package:day_tracker/Screens/editDetails.dart';
 import 'package:day_tracker/Screens/viewDisplay.dart';
@@ -13,7 +11,7 @@ class MyDisplay extends StatefulWidget {
   String? getDate;
   MyDisplay({super.key, this.getDate});
 
-  @override
+  @override 
   State<MyDisplay> createState() => _MyDisplayState();
 }
 

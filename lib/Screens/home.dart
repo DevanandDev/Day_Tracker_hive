@@ -6,7 +6,6 @@ import 'package:day_tracker/functions/functions.dart';
 import 'package:day_tracker/functions/profileFunction.dart';
 import 'package:day_tracker/models/models.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 
 class MyHome extends StatefulWidget {
