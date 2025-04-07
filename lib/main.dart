@@ -1,5 +1,4 @@
 
-import 'package:day_tracker/Screens/login.dart';
 import 'package:day_tracker/Screens/splash.dart';
 import 'package:day_tracker/models/modelProfile.dart';
 import 'package:day_tracker/models/models.dart';

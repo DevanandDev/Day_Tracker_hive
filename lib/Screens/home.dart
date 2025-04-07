@@ -18,16 +18,15 @@ class MyHome extends StatefulWidget {
 class _MyHomeState extends State<MyHome> {
   TextEditingController searchController = TextEditingController();
 
-  String search = '';
   List<MyDatas> searchList = [];
 
   void getSearch(String searchVal) {
     setState(() {
       searchList = myDatasNotifier.value
-          .where((data) => data.dateAndTime.toString().contains(searchVal))
+          .where((data) => data.dateAndTime.toString().contains(searchVal)||data.category.toString().contains(searchVal))
           .toList();
     });
-  }
+  }-
 
   @override
   void initState() {
@@ -78,12 +77,10 @@ class _MyHomeState extends State<MyHome> {
                                 ValueListenableBuilder(
                                   valueListenable: myProfileNotifier,
                                   builder: (context, value, child) {
-                                    if (value.isEmpty ||
-                                        value.first.images == null) {
+                                    if (value.isEmpty || value.first.images == null) {
                                       return const CircleAvatar(
                                         radius: 27,
-                                        backgroundImage: AssetImage(
-                                            'asset/images/person.webp'),
+                                        backgroundImage: AssetImage('asset/images/person.webp'),
                                       );
                                     }
                                     return CircleAvatar(

@@ -9,12 +9,10 @@ ValueNotifier <List<UserDatas>> myProfileNotifier= ValueNotifier([]);
 Future<void> addUser(UserDatas value)async{
   final box= await Hive.openBox<UserDatas>('database');
  await box.add(value);
- log(value.username??'');
  log(box.values.first.username??'');
 }
 
 Future<void> getUser()async{
-  log("getting user data");
   final box= await Hive.openBox<UserDatas>('database');
   myProfileNotifier.value.clear();
   myProfileNotifier.value.addAll(box.values);

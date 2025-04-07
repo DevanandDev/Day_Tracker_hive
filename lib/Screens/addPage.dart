@@ -18,7 +18,7 @@ class _MyAddState extends State<MyAdd> {
   TextEditingController timeController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
 
-  String? selectedCategory;
+  // String? selectedCategory;
 
   List<String> category = [
     'Meetings',

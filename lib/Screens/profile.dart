@@ -154,15 +154,18 @@ class _MyProfileState extends State<MyProfile> {
                       child: PieChart(
                         PieChartData(
                           sections: getSections(),
-                          borderData: FlBorderData(show: false),
-                          sectionsSpace: 2,
+                          // borderData: FlBorderData(show: false),
+                          sectionsSpace: 3,
                           centerSpaceRadius: 0,
+                          
                         ),
                       ),
                     ),
             ),
+            SizedBox(height:100)
           ],
         ),
+        
       ),
     );
   }
