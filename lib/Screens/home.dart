@@ -26,7 +26,7 @@ class _MyHomeState extends State<MyHome> {
           .where((data) => data.dateAndTime.toString().contains(searchVal)||data.category.toString().contains(searchVal))
           .toList();
     });
-  }-
+  }
 
   @override
   void initState() {
